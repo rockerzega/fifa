@@ -13,18 +13,20 @@ import com.squareup.picasso.Picasso
 
 class UserAdapter() :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
-
     var dataList: List<Countries> = emptyList()
-
+    lateinit var ItemClick: ((Countries) -> Unit)
     class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         private var binding: CountriesRvBinding = CountriesRvBinding.bind(view)
 
-        fun render(item: Countries) {
+        fun render(item: Countries, ItemClick: (Countries) -> Unit) {
             binding.txtV1.text = item.alternateName
             binding.txtV2.text = item.country
             Picasso.get().load("https://countryflagsapi.com/png/" + item.alternateName)
                 .into(binding.countryImage);
+            itemView.setOnClickListener() {
+                ItemClick(item)
+            }
         }
 
     }
@@ -35,7 +37,7 @@ class UserAdapter() :
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.render(dataList[position])
+        holder.render(dataList[position], ItemClick)
     }
 
     override fun getItemCount(): Int = dataList.size
