@@ -1,6 +1,7 @@
 package com.example.test.ui.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test.databinding.FragmentFranciaBinding
 import com.example.test.model.entities.api.Countries
+import com.example.test.ui.activities.ShowCountry
 import com.example.test.ui.adapters.UserAdapter
 import com.example.test.userCase.teams.TeamsUC
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,11 +45,10 @@ class FragmentFrancia : Fragment() {
     }
     private fun initRecyclerView () {
         val itemClick = fun (Item: Countries) {
-            Snackbar.make(
-                binding.swipeRv,
-                "Usted ha seleccionado : ${Item.alternateName}",
-                Snackbar.LENGTH_SHORT
-            ).show()
+            val toShowInfo = Intent(activity?.baseContext, ShowCountry::class.java)
+            val json = Gson().toJson(Item)
+            toShowInfo.putExtra("item", json)
+            startActivity(toShowInfo)
         }
         adapter.ItemClick = itemClick
         adapter.dataList = listCountries
