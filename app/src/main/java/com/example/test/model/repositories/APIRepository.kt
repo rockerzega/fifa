@@ -13,4 +13,10 @@ class APIRepository {
             .build()
     }
 
+    fun getUsers(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl("https://dev-z6l996sb741760k.api.raw-labs.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 }
